@@ -35,6 +35,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -147,7 +150,7 @@ import java.util.Map;
         try {
             // Read packets from input io and forward them to proxy servers.
             while (mRunning) {
-                packetsTransfer.transfer(input, output, mtu);
+                packetsTransfer.transfer(input, output);
             }
         } catch (IOException e) {
             NetBareLog.wtf(e);
@@ -164,6 +167,8 @@ import java.util.Map;
 
         private final Map<Protocol, ProxyServerForwarder> mForwarderRegistry;
 
+        private byte[] buffer;
+
         private PacketsTransfer(VpnService service, NetBareConfig config) throws IOException {
             int mtu = config.mtu;
             String localIp = config.address.address;
@@ -178,6 +183,8 @@ import java.util.Map;
                     uidDumper));
             // ICMP
             this.mForwarderRegistry.put(Protocol.ICMP, new IcmpProxyServerForwarder());
+
+            buffer = new byte[mtu];
         }
 
         private void start()  {
@@ -193,10 +200,9 @@ import java.util.Map;
             mForwarderRegistry.clear();
         }
 
-        private void transfer(InputStream input, OutputStream output, int mtu) throws IOException {
+        private void transfer(InputStream input, OutputStream output) throws IOException {
             // The thread would be blocked if there is no outgoing packets from input stream.
-            byte[] packet = new byte[mtu];
-            transfer(packet, input.read(packet), output);
+            transfer(buffer, input.read(buffer), output);
         }
 
         private void transfer(byte[] packet, int len, OutputStream output) {
