@@ -41,7 +41,6 @@ public abstract class TcpTunnel extends NioTunnel<SocketChannel, Socket> {
         super(socketChannel, selector);
         this.mSocketChannel = socketChannel;
         this.mSelector = selector;
-		InetAddress.getByName("").getHostAddress()
     }
 
     @Override
