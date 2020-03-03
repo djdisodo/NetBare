@@ -18,6 +18,7 @@ package com.github.megatronking.netbare.tunnel;
 import com.github.megatronking.netbare.NetBareLog;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.nio.ByteBuffer;
@@ -40,6 +41,7 @@ public abstract class TcpTunnel extends NioTunnel<SocketChannel, Socket> {
         super(socketChannel, selector);
         this.mSocketChannel = socketChannel;
         this.mSelector = selector;
+		InetAddress.getByName("").getHostAddress()
     }
 
     @Override

@@ -507,7 +507,7 @@ import java.util.Map;
             List<Header> hpackHeaders = new ArrayList<>();
             hpackHeaders.add(new Header(Header.TARGET_METHOD, method.name()));
             hpackHeaders.add(new Header(Header.TARGET_PATH, path));
-            hpackHeaders.add(new Header(Header.TARGET_AUTHORITY, host.getHostAddress()));
+            hpackHeaders.add(new Header(Header.TARGET_AUTHORITY, host.getHostName()));
             hpackHeaders.add(new Header(Header.TARGET_SCHEME, "https"));
             for (Map.Entry<String, List<String>> entry : headers.entrySet()) {
                 if (HTTP_2_SKIPPED_REQUEST_HEADERS.contains(entry.getKey().toLowerCase())) {

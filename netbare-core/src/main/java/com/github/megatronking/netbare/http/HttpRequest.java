@@ -137,7 +137,7 @@ public class HttpRequest extends Request {
      */
     public String url() {
         String path = path() == null ? "" : path();
-        return (isHttps() ? "https://" : "http://") + host().getHostAddress() + path;
+        return (isHttps() ? "https://" : "http://") + host().getHostName() + path;
     }
 
     /**

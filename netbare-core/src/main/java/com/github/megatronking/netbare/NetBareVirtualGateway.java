@@ -192,7 +192,7 @@ public final class NetBareVirtualGateway extends VirtualGateway {
             }
             // Check ip hosts.
             for (String host : disallowedHost) {
-                if (host.equals(mSession.remoteIp.getHostAddress())) {
+                if (host.equals(mSession.remoteIp.getHostName())) {
                     // Denied host.
                     mPolicy = POLICY_DISALLOWED;
                     return;
@@ -208,7 +208,7 @@ public final class NetBareVirtualGateway extends VirtualGateway {
                 }
             }
             for (String host : allowedHost) {
-                if (host.equals(NetBareUtils.convertIp(mSession.remoteIp.getHostAddress()))) {
+                if (host.equals(NetBareUtils.convertIp(mSession.remoteIp.getHostName()))) {
                     mPolicy = POLICY_ALLOWED;
                     return;
                 }
