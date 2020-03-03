@@ -99,7 +99,7 @@ public class UdpProxyServer extends ProxyServer {
     }
 
     @Override
-    protected void process() throws IOException {
+    protected synchronized void process() throws IOException {
         int select = getSelector().select();
         if (select == 0) {
             // Wait a short time to let the selector register or interest.

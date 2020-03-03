@@ -163,7 +163,7 @@ public class HttpResponse extends Response {
      */
     public String url() {
         String path = path() == null ? "" : path();
-        return (isHttps() ? "https://" : "http://") + host() + path;
+        return (isHttps() ? "https://" : "http://") + host().getHostAddress() + path;
     }
 
     /**

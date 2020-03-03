@@ -57,7 +57,7 @@ public abstract class ProxyServer extends Thread implements Closeable {
 	protected abstract void process() throws IOException;
 
 	@Override
-	public void close() throws IOException {
+	public synchronized void close() throws IOException {
 		getSelector().close();
 	}
 

@@ -102,7 +102,7 @@ public class TcpProxyServer extends ProxyServer {
     }
 
     @Override
-    protected void process() throws IOException {
+    protected synchronized void process() throws IOException {
         int select = getSelector().select();
         if (select == 0) {
             return;
