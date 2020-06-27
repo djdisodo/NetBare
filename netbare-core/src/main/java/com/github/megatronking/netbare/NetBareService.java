@@ -115,7 +115,6 @@ public abstract class NetBareService extends VpnService {
     }
 
     private void stopTransfer() {
-		NetBare.get().notifyServiceStopped();
         if (packetTransferThread == null) {
             return;
         }

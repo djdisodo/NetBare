@@ -121,6 +121,7 @@ public final class NetBare {
         Intent intent = new Intent(NetBareService.ACTION_STOP);
         intent.setPackage(mApp.getPackageName());
         mApp.startService(intent);
+		NetBare.get().notifyServiceStopped();
     }
 
     /**
