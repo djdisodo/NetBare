@@ -78,9 +78,9 @@ public class PacketTransferThread extends Thread implements Closeable{
 			proxyServer.close();
 		}
 		proxyServerRegistry.clear();
-		input.close();
-		output.close();
-		vpnDescriptor.close();
+		if (input != null) input.close();
+		if (output != null) output.close();
+		if (vpnDescriptor != null) vpnDescriptor.close();
 	}
 
 	private void establishVpn() {
