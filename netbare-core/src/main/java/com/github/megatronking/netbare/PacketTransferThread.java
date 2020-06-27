@@ -81,10 +81,6 @@ public class PacketTransferThread extends Thread implements Closeable{
 		input.close();
 		output.close();
 		vpnDescriptor.close();
-		final ParcelFileDescriptor parcelFileDescriptor = builder.establish();
-		if (parcelFileDescriptor != null) {
-			parcelFileDescriptor.close();
-		}
 	}
 
 	private void establishVpn() {
