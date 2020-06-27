@@ -82,8 +82,8 @@ public abstract class NetBareService extends VpnService {
             startTransfer();
             startForeground(notificationId(), createNotification());
         } else if (ACTION_STOP.equals(action)) {
+			stopForeground(true);
             stopTransfer();
-            stopForeground(true);
             stopSelf();
         } else {
             stopSelf();
