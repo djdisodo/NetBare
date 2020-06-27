@@ -80,8 +80,6 @@ public class PacketTransferThread extends Thread implements Closeable{
 		if (input != null) input.close();
 		if (output != null) output.close();
 		if (vpnDescriptor != null) vpnDescriptor.close();
-		// Notify NetBareListener that the service is stopped now.
-		NetBare.get().notifyServiceStopped();
 	}
 
 	private void establishVpn() {
