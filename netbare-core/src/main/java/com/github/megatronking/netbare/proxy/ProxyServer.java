@@ -65,7 +65,9 @@ public abstract class ProxyServer extends Thread implements Closeable {
 	public void run() {
 		while (!isInterrupted()) {
 			try {
-				process();
+				if (getSelector().isOpen()) {
+					process();
+				}
 			} catch (IOException e) {
 				NetBareLog.e(e.getMessage());
 			}
