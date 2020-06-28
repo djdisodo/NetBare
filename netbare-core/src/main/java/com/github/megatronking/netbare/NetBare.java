@@ -118,10 +118,10 @@ public final class NetBare {
      * {@link NetBareListener#onServiceStopped()} will be invoked.
      */
     public void stop() {
+		NetBare.get().notifyServiceStopped();
         Intent intent = new Intent(NetBareService.ACTION_STOP);
         intent.setPackage(mApp.getPackageName());
         mApp.startService(intent);
-		NetBare.get().notifyServiceStopped();
     }
 
     /**
