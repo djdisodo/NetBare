@@ -61,13 +61,7 @@ public class PacketTransferThread extends Thread implements Closeable{
 
 	public void run() {
 		super.run();
-		// Notify NetBareListener that the service is started now.
-		NetBare.get().notifyServiceStarted();
-
 		establishVpn();
-
-
-
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.net.VpnService;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 
 import com.github.megatronking.netbare.ssl.SSLEngineFactory;
@@ -42,7 +43,9 @@ import java.io.IOException;
  */
 public abstract class NetBareService extends VpnService {
 
-    /**
+	private Binder binder = new Binder();
+
+	/**
      * Start capturing target app's net packets.
      */
     public static final String ACTION_START =
@@ -127,5 +130,20 @@ public abstract class NetBareService extends VpnService {
 		}
         packetTransferThread = null;
     }
+
+	public class Binder extends android.os.Binder {
+		public NetBareService getService() {
+			return NetBareService.this;
+		}
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return binder;
+	}
+
+	public boolean isActive() {
+    	return packetTransferThread != null && !packetTransferThread.isInterrupted();
+	}
 
 }

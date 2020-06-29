@@ -17,8 +17,12 @@ package com.github.megatronking.netbare;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.VpnService;
+import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 
@@ -44,7 +48,7 @@ import java.util.Set;
  * @author Megatron King
  * @since 2018-10-07 09:28
  */
-public final class NetBare {
+public final class NetBare implements ServiceConnection {
 
     private static class Holder {
 
@@ -111,6 +115,7 @@ public final class NetBare {
         Intent intent = new Intent(NetBareService.ACTION_START);
         intent.setPackage(mApp.getPackageName());
         ContextCompat.startForegroundService(mApp, intent);
+        mApp.bindService(intent, this, Context.BIND_AUTO_CREATE);
     }
 
     /**
@@ -118,7 +123,6 @@ public final class NetBare {
      * {@link NetBareListener#onServiceStopped()} will be invoked.
      */
     public void stop() {
-		NetBare.get().notifyServiceStopped();
         Intent intent = new Intent(NetBareService.ACTION_STOP);
         intent.setPackage(mApp.getPackageName());
         mApp.startService(intent);
@@ -130,7 +134,7 @@ public final class NetBare {
      * @return True if the service is alive, false otherwise.
      */
     public boolean isActive() {
-        return mAlive;
+        return binder != null && binder.getService().isActive();
     }
 
     /**
@@ -161,18 +165,14 @@ public final class NetBare {
                 mNetBareConfig.gatewayFactory;
     }
 
-    /* package */ void notifyServiceStarted() {
-        mAlive = true;
-        for (NetBareListener listener : new LinkedHashSet<>(mListeners)) {
-            listener.onServiceStarted();
-        }
-    }
+    private NetBareService.Binder binder;
+	@Override
+	public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+		binder = (NetBareService.Binder) iBinder;
+	}
 
-    /* package */ void notifyServiceStopped() {
-        mAlive = false;
-        for (NetBareListener listener : new LinkedHashSet<>(mListeners)) {
-            listener.onServiceStopped();
-        }
-    }
-
+	@Override
+	public void onServiceDisconnected(ComponentName componentName) {
+		binder = null;
+	}
 }
