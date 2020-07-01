@@ -74,7 +74,7 @@ public class PacketTransferThread extends Thread implements Closeable{
 		if (input != null) input.close();
 		if (output != null) output.close();
 		if (vpnDescriptor != null) vpnDescriptor.close();
-		builder.establish().close();
+		if (builder != null) builder.establish().close();
 	}
 
 	private void establishVpn() {
